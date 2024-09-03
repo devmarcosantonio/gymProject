@@ -1,0 +1,22 @@
+
+
+# docker run --name api-solid-pg -e POSTGRESQL_USERNAME=docker -e POSTGRESQL_PASSWORD=docker -e POSTGRESQL_DATABASE=apisolid -p 5432:5432 bitnami/postgresql
+
+# Para baixar e rodar o docker abaixo: docker compose up -d
+# Para parar e excluir o docker abaixo e todas as coisas dele: docker compose down
+# Para apenas fechar o container sem excluir ele: docker compose stop
+# Outros comandos docker:
+# >> docker ps (mostra quais containers estão rodandando naquele momento)
+# >> docker rm "nome-container ou id" (exclui imagem)
+
+services:
+  api-solid-pg:
+    image: bitnami/postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=apisolid
+  
+

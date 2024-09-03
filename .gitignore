@@ -1,0 +1,9 @@
+# Dependencias
+node_modules
+
+# Ambientes
+.env
+
+coverage
+
+build
