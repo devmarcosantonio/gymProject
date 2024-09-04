@@ -1,4 +1,4 @@
-import { InMemoryRepository } from "../repositories/in-memory/in-memory-repository"
+import { InMemoryRepository } from "../repositories/in-memory/in-memory-users-repository"
 import { describe, it, expect, beforeEach } from "vitest"
 import { AuthenticateService } from "./authenticate"
 import { hash } from "bcryptjs"
