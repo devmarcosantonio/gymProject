@@ -12,6 +12,8 @@ describe('Authenticate Service.', () => {
     beforeEach(() => {
         usersRepository = new InMemoryRepository()
         sut = new AuthenticateService(usersRepository)
+
+        
     })
 
     it("Deve ser possível fazer autenticação.", async () => {
