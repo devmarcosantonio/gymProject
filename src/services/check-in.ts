@@ -3,14 +3,14 @@ import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { CheckInsRepository } from '@/repositories/check-ins-repository'
 import { randomUUID } from 'crypto'
 import { GymsRespository } from '@/repositories/gyms-repository'
+import { getDistanceBetweenCoordinates } from '../utils/get-distance-between-coordinates'
 
 
 interface CheckinServiceInterfaceRequest {
     userId: string,
     gymId: string,
-    userLatitude: Number,
-    userLongitude: Number
-
+    userLatitude: number,
+    userLongitude: number
 }
 
 interface CheckinServiceInterfaceResponse {
@@ -25,13 +25,24 @@ export class CheckInService {
 
     async execute ({userId, gymId, userLatitude, userLongitude} : CheckinServiceInterfaceRequest): Promise<CheckinServiceInterfaceResponse> {
 
-        const gym = this.gymsRepository.findById(gymId)
+        const gym = await this.gymsRepository.findById(gymId)
 
         if (!gym) {
             throw new ResourceNotFoundError()
         }
 
-        // calcular a distancia
+        const distanceBetweenUserAndGym = getDistanceBetweenCoordinates(
+            {latitude: userLatitude, longitude: userLongitude},
+            {latitude: gym.latitude.toNumber(), longitude: gym.longitude.toNumber()}
+        )
+
+        console.log(distanceBetweenUserAndGym)
+
+        const MAX_DISTANCE_IN_KM = 0.1
+
+        if (distanceBetweenUserAndGym > MAX_DISTANCE_IN_KM) {
+            throw new Error()
+        }
 
         const checkinInOnSameDate = await this.checkinsRepository.findByUserIdOnDate(userId, new Date())
 
