@@ -5,8 +5,19 @@ import { GymsRespository } from "../gyms-repository";
 export class InMemoryGymsRepository implements GymsRespository {
     public gyms: Gym[] = []
 
-    create(data: Prisma.GymCreateInput): Promise<Gym> {
-        throw new Error("Method not implemented.");
+    async create(data: Prisma.GymCreateInput): Promise<Gym> {
+        const newGym: Gym = {
+            id: randomUUID(),
+            title: data.title,
+            phone: data.phone ?? null,
+            description: data.description ?? null,
+            longitude: new Prisma.Decimal(data.longitude.toString()),
+            latitude: new Prisma.Decimal(data.latitude.toString())
+        }
+        
+        this.gyms.push(newGym)
+
+        return newGym
     }
     
     async findById(gymId: string): Promise<Gym | null> {

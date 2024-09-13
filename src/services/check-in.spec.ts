@@ -111,4 +111,4 @@ describe('CheckIns Service.', () => {
             })
         }).rejects.toBeInstanceOf(Error)
     })
-})
+}) 
