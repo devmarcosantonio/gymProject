@@ -31,4 +31,10 @@ export class InMemoryGymsRepository implements GymsRespository {
 
         return gym
     }
+
+    async searchMany (query: string, page: number): Promise<Gym[]> {
+        const gyms = this.gyms.filter((item) => item.title === query).slice((page - 1) * 20, page * 20)
+
+        return gyms
+    }
 }
