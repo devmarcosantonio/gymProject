@@ -4,6 +4,8 @@ import { describe, it, expect, beforeEach, vi, afterEach } from "vitest"
 import { CheckInService } from "./check-in"
 import { Decimal } from "@prisma/client/runtime/library"
 import { ResourceNotFoundError } from "./errors/resource-not-found-error"
+import { MaxCheckInsError } from "./errors/max-check-is-error"
+import { MaxDistanceError } from "./errors/max-distance-error"
 
 
 
@@ -65,7 +67,7 @@ describe('CheckIns Service.', () => {
                 userLatitude: -2.5532810,
                 userLongitude: -44.1938228
             })
-        }).rejects.toBeInstanceOf(Error)
+        }).rejects.toBeInstanceOf(MaxCheckInsError)
     })
 
     it("Deve ser possível fazer check in em dias diferentes.", async () => {
@@ -109,6 +111,6 @@ describe('CheckIns Service.', () => {
                 userLatitude: -2.5532810,
                 userLongitude: -44.1938228
             })
-        }).rejects.toBeInstanceOf(Error)
+        }).rejects.toBeInstanceOf(MaxDistanceError)
     })
 }) 
