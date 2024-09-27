@@ -1,9 +1,5 @@
 import { expect, describe, it, beforeEach } from 'vitest'
-import { RegisterService } from './register'
-import { compare } from 'bcryptjs'
-import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 import { InMemoryGymsRepository } from '../repositories/in-memory/in-memory-gyms-repository'
-import { CreateGymService } from './create-gym'
 import { SearchGymByTitleService } from './search-gyms'
 
 describe ('Search Gyms by name service.', () => {
@@ -14,6 +10,30 @@ describe ('Search Gyms by name service.', () => {
     beforeEach(() => {
         gymsRepository = new InMemoryGymsRepository()
         sut = new SearchGymByTitleService(gymsRepository)
+    })
+
+    it('Deve ser possível buscar academia paginada.', async () => {
+        for (let i = 1; i <= 22; i ++) {
+            gymsRepository.create({
+                title: `Academia ${i}` ,
+                description: 'uma academia legal',
+                phone: '+55982929292',
+                latitude: -2.4973319050,
+                longitude: -44.1012469949
+            })
+        }
+        const {gyms} = await sut.execute({query: 'Academia', page: 2})
+
+        expect(gyms).toHaveLength(2)
+        expect.objectContaining([
+            expect.objectContaining({
+                title: 'Academia 21'
+            }),
+            expect.objectContaining({
+                title: 'Academia 22'
+            })
+        ])
+
     })
 
     it('Deve ser possível buscar acadenia pelo nome/title', async () => {
