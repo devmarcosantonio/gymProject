@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 
 
 
-class PrismaCheckInsRepository implements CheckInsRepository {
+export class PrismaCheckInsRepository implements CheckInsRepository {
     async create(data: Prisma.CheckInUncheckedCreateInput): Promise<CheckIn> {
         const checkIn = await prisma.checkIn.create({
             data

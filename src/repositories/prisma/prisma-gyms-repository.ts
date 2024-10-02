@@ -7,7 +7,7 @@ import { FindManyNearbyParams, GymsRespository } from "../gyms-repository";
 
 
 
-class PrismaGymsRepository implements GymsRespository {
+export class PrismaGymsRepository implements GymsRespository {
     async create(data: Prisma.GymCreateInput): Promise<Gym> {
         const gym = await prisma.gym.create({
             data
