@@ -9,6 +9,10 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
 
     private checkins: CheckIn[] = []
 
+    async getAll () {
+        return this.checkins
+    }
+
     async create(data: Prisma.CheckInUncheckedCreateInput): Promise<CheckIn> {
         const checkin: CheckIn = {
             id: randomUUID(),
@@ -21,6 +25,18 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
         this.checkins.push(checkin)
 
         return checkin
+    }
+
+    async findById(checkInId: string): Promise<CheckIn | null> {
+        const checkIn = this.checkins.find((item) => {
+            return item.id === checkInId
+        })
+
+        if (!checkIn) {
+            return null
+        }
+
+        return checkIn
     }
 
     async countByUserId(userId: string): Promise<number> {
@@ -56,6 +72,15 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
         if (!checkinInOnSameDate) return null
 
         return checkinInOnSameDate
+    }
+
+    async save(checkIn: CheckIn): Promise<CheckIn> {
+        const checkInIndex = this.checkins.findIndex((item) => item.id === checkIn.id)
+        
+        if (checkInIndex >= 0) {
+            this.checkins[checkInIndex] = checkIn
+        } 
+        return checkIn
     }
 
 }
