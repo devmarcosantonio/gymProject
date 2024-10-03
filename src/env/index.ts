@@ -5,6 +5,7 @@ import 'dotenv/config'
 
 const envSchema = z.object({
     NODE_ENV: z.enum(['dev', 'test', 'production']).default('dev'),
+    JWT_SECRET: z.string(),
     PORT: z.coerce.number().default(3333), // coerce transforma o que tiver em PORT, em número, pq pode vim com string.
 })
 
